@@ -1,0 +1,21 @@
+service:
+  name: my-image-processing-service
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: ap-south-1  # adjust the region as needed
+
+functions:
+  imageProcessingFunction:
+    handler: lambda_function.lambda_handler
+    events:
+      - s3:
+          bucket: sipimage
+          event: s3:ObjectCreated:*
+
+layers:
+  myLayer:
+    path: lambda_layer.zip
+    compatibleRuntimes:
+      - python3.8
